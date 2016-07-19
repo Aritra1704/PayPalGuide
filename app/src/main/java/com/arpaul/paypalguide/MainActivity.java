@@ -13,6 +13,7 @@ import com.paypal.android.MEP.PayPal;
 import com.paypal.android.MEP.PayPalActivity;
 import com.paypal.android.MEP.PayPalInvoiceData;
 import com.paypal.android.MEP.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
 
 import java.math.BigDecimal;
 
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean _paypalLibraryInit;
     private CheckoutButton launchPayPalButton;
+    private static final String CONFIG_CLIENT_ID = "Aa7ZDll4t1ihlW0JnBlLoLqrQK3mSmbOtq50U3y9s-SgeraxdHe_XXyyeaDgSK_zAet7VLXlEaLoGai8";
+    private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private void showPayPalButton() {
 
         // Generate the PayPal checkout button and save it for later use
-        PayPal pp = PayPal.getInstance();
+        /*PayPal pp = PayPal.getInstance();
         launchPayPalButton = pp.getCheckoutButton(this, PayPal.BUTTON_278x43, CheckoutButton.TEXT_PAY);
 
         // The OnClick listener for the checkout button
@@ -73,12 +76,12 @@ public class MainActivity extends AppCompatActivity {
         launchPayPalButton.setLayoutParams(params);
         launchPayPalButton.setId(PAYPAL_BUTTON_ID);
         ((RelativeLayout) findViewById(R.id.RelativeLayout01)).addView(launchPayPalButton);
-        ((RelativeLayout) findViewById(R.id.RelativeLayout01)).setGravity(Gravity.CENTER_HORIZONTAL);
+        ((RelativeLayout) findViewById(R.id.RelativeLayout01)).setGravity(Gravity.CENTER_HORIZONTAL);*/
     }
 
     public void PayPalButtonClick(View arg0) {
         // Create a basic PayPal payment
-        PayPalPayment payment = new PayPalPayment();
+        /*PayPalPayment payment = new PayPalPayment();
 
         // Set the currency type
         payment.setCurrencyType("USD");
@@ -99,11 +102,11 @@ public class MainActivity extends AppCompatActivity {
         PayPalInvoiceData invoice = new PayPalInvoiceData();
 
         // Set the tax amount
-        invoice.setTax(new BigDecimal(_taxAmount));
+        invoice.setTax(new BigDecimal(_taxAmount));*/
     }
 
     public void PayPalActivityResult(int requestCode, int resultCode, Intent intent) {
-        switch (resultCode) {
+        /*switch (resultCode) {
             // The payment succeeded
             case Activity.RESULT_OK:
                 String payKey = intent.getStringExtra(PayPalActivity.EXTRA_PAY_KEY);
@@ -120,6 +123,6 @@ public class MainActivity extends AppCompatActivity {
                 String errorID = intent.getStringExtra(PayPalActivity.EXTRA_ERROR_ID);
                 String errorMessage = intent.getStringExtra(PayPalActivity.EXTRA_ERROR_MESSAGE);
                 this.paymentFailed(errorID, errorMessage);
-        }
+        }*/
     }
 }

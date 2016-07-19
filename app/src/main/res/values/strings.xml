@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PayPalGuide</string>
+    <string name="amount">Amount</string>
+    <string name="take_order">Take Order</string>
 </resources>
