@@ -44,7 +44,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/take_order"/>
+                android:text="@string/take_order_paypal"/>
+            <Button
+                android:id="@+id/orderPaytm"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/take_order_paytm"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

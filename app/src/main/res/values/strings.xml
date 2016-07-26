@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">PayPalGuide</string>
     <string name="amount">Amount</string>
-    <string name="take_order">Take Order</string>
+    <string name="take_order_paypal">Take Order PayPal</string>
+    <string name="take_order_paytm">Take Order Paytm</string>
 </resources>

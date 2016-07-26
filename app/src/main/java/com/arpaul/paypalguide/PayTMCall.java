@@ -20,6 +20,8 @@ public class PayTMCall implements PaytmPaymentTransactionCallback {
 
     public PayTMCall (Context context){
         this.context = context;
+
+        initialize();
     }
     public void initialize(){
         //Getting the Service Instance. PaytmPGService.getStagingService()  will return the Service pointing to Staging Environment and PaytmPGService.getProductionService() will return the Service pointing to Production Environment.

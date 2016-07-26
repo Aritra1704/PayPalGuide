@@ -66,6 +66,12 @@ public class TestActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.orderPaytm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new PayTMCall(TestActivity.this);
+            }
+        });
     }
 
     public void onFuturePaymentPressed(View pressed) {
