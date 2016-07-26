@@ -17,6 +17,8 @@ import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
+import com.paytm.pgsdk.PaytmClientCertificate;
+import com.paytm.pgsdk.PaytmOrder;
 
 import org.json.JSONException;
 
@@ -41,6 +43,10 @@ public class TestActivity extends AppCompatActivity {
             .merchantUserAgreementUri(Uri.parse("https://www.example.com/legal"));
     PayPalPayment thingToBuy;
 
+
+    //PayTM
+    //http://paywithpaytm.com/developer/paytm_sdk_doc?target=android-configurations
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +65,7 @@ public class TestActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_PAYMENT);
             }
         });
+
     }
 
     public void onFuturePaymentPressed(View pressed) {
