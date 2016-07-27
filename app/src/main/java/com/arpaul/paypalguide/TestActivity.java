@@ -69,7 +69,7 @@ public class TestActivity extends AppCompatActivity {
         findViewById(R.id.orderPaytm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new PayTMCall(TestActivity.this);
+                new PayTMCall(TestActivity.this, SERVICE_TYPE.TYPE_STAGING);
             }
         });
     }
