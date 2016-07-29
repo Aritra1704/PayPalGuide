@@ -27,4 +27,6 @@ dependencies {
     compile project (':PayPalAndroidSDK')
     compile project (':PGSDK_v1.0')
     compile project (':MobiKwik_SDK_V2.0.1')
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.github.Aritra1704:UtilitiesJitPackLib:1.04'
 }

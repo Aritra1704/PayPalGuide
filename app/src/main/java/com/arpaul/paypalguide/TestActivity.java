@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.arpaul.utilitieslib.StringUtils;
+import com.mobikwik.sdk.MobikwikSDK;
+import com.mobikwik.sdk.lib.MKTransactionResponse;
 import com.paypal.android.sdk.payments.PayPalAuthorization;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalFuturePaymentActivity;
@@ -72,6 +75,13 @@ public class TestActivity extends AppCompatActivity {
                 new PayTMCall(TestActivity.this, SERVICE_TYPE.TYPE_STAGING);
             }
         });
+
+        findViewById(R.id.orderMobikwik).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MobikWikCall(TestActivity.this, SERVICE_TYPE.TYPE_STAGING, "aritrarpal@gmail.com", "9030303407", "1");
+            }
+        });
     }
 
     public void onFuturePaymentPressed(View pressed) {
@@ -125,6 +135,56 @@ public class TestActivity extends AppCompatActivity {
             } else if (resultCode == PayPalFuturePaymentActivity.RESULT_EXTRAS_INVALID) {
                 Log.i("FuturePaymentExample",
                         "Probably the attempt to previously start the PayPalService had an invalid PayPalConfiguration. Please see the docs.");
+            }
+        } else if (requestCode == MobikWikCall.REQ_CODE ) {
+            if (data != null ) {
+                MKTransactionResponse response = (MKTransactionResponse)data.getSerializableExtra(MobikwikSDK. EXTRA_TRANSACTION_RESPONSE );
+                switch (StringUtils.getInt(response.statusCode)){
+                    case MobikWikCall.SUCCESS:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.FAILED:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.USER_BLOCKED:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.INSUFFICIENT_BALANCE:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.USER_CANCELLED_TRANSACTION:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.DUPLICATE_ORDER_ID:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.EMAIL_ID_INVALID:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.CELL_INVALID:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.EITHER_EMAIL_OR_MOBILE:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.AMOUNT_INVALID:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.AUTHENTICATION_FAILED:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.UNEXPECTED_ERROR:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.UNABLE_TO_CONNECT_SERVER:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                    case MobikWikCall.USER_DOES_NOT_EXIST:
+                        Toast.makeText(TestActivity.this, response. statusMessage, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                System.out.println("CheckoutActivity.onActivityResult() " + response. statusMessage );
+                System.out.println("CheckoutActivity.onActivityResult() " + response. statusCode );
             }
         }
     }

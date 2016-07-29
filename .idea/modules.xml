@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/MobiKwik_SDK_V2.0.1/MobiKwik_SDK_V2.0.1.iml" filepath="$PROJECT_DIR$/MobiKwik_SDK_V2.0.1/MobiKwik_SDK_V2.0.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PGSDK_v1.0/PGSDK_v1.0.iml" filepath="$PROJECT_DIR$/PGSDK_v1.0/PGSDK_v1.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PayPalAndroidSDK/PayPalAndroidSDK.iml" filepath="$PROJECT_DIR$/PayPalAndroidSDK/PayPalAndroidSDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/PayPalGuide.iml" filepath="$PROJECT_DIR$/PayPalGuide.iml" />
       <module fileurl="file://$PROJECT_DIR$/PayPal_MPL/PayPal_MPL.iml" filepath="$PROJECT_DIR$/PayPal_MPL/PayPal_MPL.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />

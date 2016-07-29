@@ -8,6 +8,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/MobiKwik_SDK_V2.0.1" />
+            <option value="$PROJECT_DIR$/PGSDK_v1.0" />
+            <option value="$PROJECT_DIR$/PayPalAndroidSDK" />
             <option value="$PROJECT_DIR$/PayPal_MPL" />
             <option value="$PROJECT_DIR$/app" />
           </set>
@@ -15,6 +18,9 @@
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/MobiKwik_SDK_V2.0.1" />
+            <option value="$PROJECT_DIR$/PGSDK_v1.0" />
+            <option value="$PROJECT_DIR$/PayPalAndroidSDK" />
             <option value="$PROJECT_DIR$/PayPal_MPL" />
             <option value="$PROJECT_DIR$/app" />
           </set>

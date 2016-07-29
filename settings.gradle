@@ -1,1 +1,1 @@
-include ':app', ':PayPal_MPL'
+include ':app', ':PayPal_MPL', ':PayPalAndroidSDK', ':PGSDK_v1.0', ':MobiKwik_SDK_V2.0.1'
