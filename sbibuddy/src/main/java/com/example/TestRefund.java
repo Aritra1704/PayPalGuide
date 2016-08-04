@@ -31,18 +31,17 @@ public class TestRefund {
 	public static final String AMOUNT_PARAM = "amount";
 	public static final String MERCHANTID_PARAM = "merchantId";
 
-	public static void main(String[] args) throws Exception {
+	public static void makeRefund()  throws Exception {
+		// here you can change your parameters:
 
-        // here you can change your parameters:
-	
-      //String orderId = "EAK34283S796695";
-        String transactionId = "527726566";
-        String amount = "4.00";
-        String merchantId = "527697601";
-        String encodedKey ="jw6CGR29ps19rKGhTGBvZQ==";
+		//String orderId = "EAK34283S796695";
+		String transactionId = "527726566";
+		String amount = "4.00";
+		String merchantId = "527697601";
+		String encodedKey ="jw6CGR29ps19rKGhTGBvZQ==";
 
-      // String payLoad = ORDERID_PARAM + "=" + URLEncoder.encode(orderId, "UTF-8") + "&" + AMOUNT_PARAM + "=" + URLEncoder.encode(amount, "UTF-8");
-       String payLoad = TRANSACTIONID_PARAM + "=" + URLEncoder.encode(transactionId, "UTF-8") + "&" + AMOUNT_PARAM + "=" + URLEncoder.encode(amount, "UTF-8");
+		// String payLoad = ORDERID_PARAM + "=" + URLEncoder.encode(orderId, "UTF-8") + "&" + AMOUNT_PARAM + "=" + URLEncoder.encode(amount, "UTF-8");
+		String payLoad = TRANSACTIONID_PARAM + "=" + URLEncoder.encode(transactionId, "UTF-8") + "&" + AMOUNT_PARAM + "=" + URLEncoder.encode(amount, "UTF-8");
 
 //		byte[] decodedKey = Base64.decodeBase64(encodedKey.getBytes());
 		byte[] decodedKey = Base64.getDecoder().decode(encodedKey.getBytes());
@@ -54,24 +53,23 @@ public class TestRefund {
 //		String encryptedData = new String(Base64.encodeBase64(encryptedBody));
 
 		String body = MERCHANTID_PARAM + "=" + merchantId + "&encryptedData=" + URLEncoder.encode(encryptedData, "UTF-8");
-		
+
 		String entireResponse = send("https://buddyuat.sbi.co.in/mmgw-tls/merchant/api/refund", body);
 		System.out.println("entireResponse:"+ entireResponse);
-		
-			if (entireResponse.contains("encryptedData=")) {
-				String encryptedResponse = entireResponse.substring(entireResponse.indexOf("encryptedData=") + "encryptedData=".length());
-				encryptedResponse = URLDecoder.decode(encryptedResponse, "UTF-8");
-				System.out.println("encryptedResponse:"+ encryptedResponse);
 
-				byte[] decodedResponse = Base64.getDecoder().decode(encryptedResponse.getBytes());
+		if (entireResponse.contains("encryptedData=")) {
+			String encryptedResponse = entireResponse.substring(entireResponse.indexOf("encryptedData=") + "encryptedData=".length());
+			encryptedResponse = URLDecoder.decode(encryptedResponse, "UTF-8");
+			System.out.println("encryptedResponse:"+ encryptedResponse);
+
+			byte[] decodedResponse = Base64.getDecoder().decode(encryptedResponse.getBytes());
 //				byte[] decodedResponse = Base64.decodeBase64(encryptedResponse.getBytes());
 
-				byte[] decryptedResponse = decrypt(encryptionKey, decodedResponse);
-				String response = new String(decryptedResponse, "UTF-8");
-				System.out.println("Decoded Response:" + response);
-			
-		}
+			byte[] decryptedResponse = decrypt(encryptionKey, decodedResponse);
+			String response = new String(decryptedResponse, "UTF-8");
+			System.out.println("Decoded Response:" + response);
 
+		}
 	}
 
 	

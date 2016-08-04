@@ -30,19 +30,17 @@ public class TestStatus {
 	
 	public static final String  MERCHANTID_PARAM = "merchantId";
 
-	public static void main(String[] args) throws Exception {
+	public static void checkStatus()  throws Exception {
+		// change the order id and transaction id accordingly:
+		String orderId = "EAK38423365456";
+		String transactionId = "527726566";
 
-	// change the order id and transaction id accordingly:
-	    String orderId = "EAK38423365456"; 
-       String transactionId = "527726566";
-      
-        String merchantId = "527697601";
-        String encodedKey ="jw6CGR29ps19rKGhTGBvZQ==";
-	    
+		String merchantId = "527697601";
+		String encodedKey ="jw6CGR29ps19rKGhTGBvZQ==";
 
 		String payLoad = TRANSACTIONID_PARAM + "=" + URLEncoder.encode(transactionId, "UTF-8") + "&" + ORDERID_PARAM + "=" + URLEncoder.encode(orderId, "UTF-8");
 
-		
+
 //		byte[] decodedKey = Base64.decodeBase64(encodedKey.getBytes());
 		byte[] decodedKey = Base64.getDecoder().decode(encodedKey.getBytes());
 		Key encryptionKey = new SecretKeySpec(decodedKey, "AES");
@@ -56,23 +54,23 @@ public class TestStatus {
 		System.out.println("encryptedData   "+encryptedData);
 		//String body = MERCHANTID_PARAM + "=" + merchantId + "&encryptedData=" + encryptedData;
 		String body = MERCHANTID_PARAM + "=" + merchantId + "&encryptedData=" + URLEncoder.encode(encryptedData, "UTF-8");
-		
+
 		String entireResponse = send("https://buddyuat.sbi.co.in/mmgw-tls/merchant/api/status", body);
 		//https://buddyuat.sbi.co.in/mmgw-tls/merchant/page/paynow
 
 		System.out.println("entireResponse:"+ entireResponse);
-		
-			if (entireResponse.contains("encryptedData=")) {
-				String encryptedResponse = entireResponse.substring(entireResponse.indexOf("encryptedData=") + "encryptedData=".length());
-				encryptedResponse = URLDecoder.decode(encryptedResponse, "UTF-8");
-				System.out.println("encryptedResponse:"+ encryptedResponse);
+
+		if (entireResponse.contains("encryptedData=")) {
+			String encryptedResponse = entireResponse.substring(entireResponse.indexOf("encryptedData=") + "encryptedData=".length());
+			encryptedResponse = URLDecoder.decode(encryptedResponse, "UTF-8");
+			System.out.println("encryptedResponse:"+ encryptedResponse);
 
 //				byte[] decodedResponse = Base64.decodeBase64(encryptedResponse.getBytes());
-				byte[] decodedResponse = Base64.getDecoder().decode(encryptedResponse.getBytes());
+			byte[] decodedResponse = Base64.getDecoder().decode(encryptedResponse.getBytes());
 
-				byte[] decryptedResponse = decrypt(encryptionKey, decodedResponse);
-				String response = new String(decryptedResponse, "UTF-8");
-				System.out.println("Decoded Response---------:" + response);
+			byte[] decryptedResponse = decrypt(encryptionKey, decodedResponse);
+			String response = new String(decryptedResponse, "UTF-8");
+			System.out.println("Decoded Response---------:" + response);
 		}
 	}
 
@@ -83,16 +81,16 @@ public class TestStatus {
 	private static void disableSslVerification() {
 	    try
 	    {
-	        // Create a trust manager that does not validate certificate chains
-	        TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
-	            public X509Certificate[] getAcceptedIssuers() {
-	                return null;
-	            }
-	            public void checkClientTrusted(X509Certificate[] certs, String authType) {
-	            }
-	            public void checkServerTrusted(X509Certificate[] certs, String authType) {
-	            }
-	        }
+	        	// Create a trust manager that does not validate certificate chains
+				TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
+					public X509Certificate[] getAcceptedIssuers() {
+						return null;
+					}
+					public void checkClientTrusted(X509Certificate[] certs, String authType) {
+					}
+					public void checkServerTrusted(X509Certificate[] certs, String authType) {
+					}
+				}
 	        };
 
 	        // Install the all-trusting trust manager
