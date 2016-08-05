@@ -1,4 +1,4 @@
-package com.arpaul.paypalguide;
+package com.arpaul.paypalguide.paymentService;
 
 /**
  * Created by Aritra on 27-07-2016.

@@ -1,16 +1,18 @@
-package com.arpaul.paypalguide;
+package com.arpaul.paypalguide.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
+import com.arpaul.paypalguide.paymentService.MobikWikCall;
+import com.arpaul.paypalguide.paymentService.PayTMCall;
+import com.arpaul.paypalguide.R;
+import com.arpaul.paypalguide.paymentService.SERVICE_TYPE;
 import com.arpaul.utilitieslib.StringUtils;
 import com.mobikwik.sdk.MobikwikSDK;
 import com.mobikwik.sdk.lib.MKTransactionResponse;
@@ -21,8 +23,6 @@ import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
-import com.paytm.pgsdk.PaytmClientCertificate;
-import com.paytm.pgsdk.PaytmOrder;
 
 import org.json.JSONException;
 
@@ -81,6 +81,13 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new MobikWikCall(TestActivity.this, SERVICE_TYPE.TYPE_STAGING, "aritrarpal@gmail.com", "9030303407", "1");
+            }
+        });
+
+        findViewById(R.id.orderSBIBuddy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TestActivity.this, SBIBuddyActivity.class));
             }
         });
     }

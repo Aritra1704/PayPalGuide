@@ -1,4 +1,4 @@
-package com.arpaul.paypalguide;
+package com.arpaul.paypalguide.paymentService;
 
 import android.content.Context;
 import android.os.Bundle;

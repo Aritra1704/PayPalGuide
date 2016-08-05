@@ -4,4 +4,5 @@
     <string name="take_order_paypal">Take Order PayPal</string>
     <string name="take_order_paytm">Take Order Paytm</string>
     <string name="take_order_mobikwik">Take Order Mobikwik</string>
+    <string name="take_order_sbibuddy">Take Order Sbi Buddy</string>
 </resources>

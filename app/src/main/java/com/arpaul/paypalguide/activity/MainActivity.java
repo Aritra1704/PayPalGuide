@@ -1,4 +1,4 @@
-package com.arpaul.paypalguide;
+package com.arpaul.paypalguide.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.arpaul.paypalguide.R;
 import com.paypal.android.MEP.CheckoutButton;
 import com.paypal.android.MEP.PayPal;
 import com.paypal.android.MEP.PayPalActivity;

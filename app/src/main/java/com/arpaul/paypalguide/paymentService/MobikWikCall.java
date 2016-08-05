@@ -1,19 +1,15 @@
-package com.arpaul.paypalguide;
+package com.arpaul.paypalguide.paymentService;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
 import com.mobikwik.sdk.MobikwikSDK;
-import com.mobikwik.sdk.lib.MKTransactionResponse;
 import com.mobikwik.sdk.lib.Transaction;
 import com.mobikwik.sdk.lib.TransactionConfiguration;
 import com.mobikwik.sdk.lib.User;
 import com.mobikwik.sdk.lib.payinstrument.PaymentInstrumentType;
-import com.paytm.pgsdk.PaytmPGService;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
