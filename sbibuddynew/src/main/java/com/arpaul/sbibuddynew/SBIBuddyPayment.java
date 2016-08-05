@@ -40,7 +40,7 @@ public class SBIBuddyPayment {
     public static final String MERCHANTID = "528001601";
     public static final String ENCODING_KEY = "+VSvfXcO9Ygtxr7iyXZ5vQ==";
 
-    public static final String URL_PAYNOW = "https://buddyuat.sbi.co.in/mmgw-tls/merchant/page/paynow?";
+    public static final String URL_PAYNOW = "https://buddyuat.sbi.co.in/mmgw-tls/merchant/page/paynow";
 
     private String transformation = "AES";
     private String utf8 = "UTF-8";
@@ -49,7 +49,8 @@ public class SBIBuddyPayment {
 
     }
 
-    public void paynow1(float amount) {
+    public String paynow1WebView(float amount) {
+        String jsonData = "";
         try{
             byte[] secretKey = new byte[]{0x01};
 
@@ -72,28 +73,12 @@ public class SBIBuddyPayment {
             System.out.println("Encrypted Val =" + encryptedData);
 
 
-            String body = MERCHANTID_PARAM + "=" + MERCHANTID + "&encryptedData=" + URLEncoder.encode(encryptedData, "UTF-8");
+            jsonData = MERCHANTID_PARAM + "=" + MERCHANTID + "&encryptedData=" + URLEncoder.encode(encryptedData, "UTF-8");
 
-            String entireRequest = URL_PAYNOW + body;
-
-            String entireResponse = send(URL_PAYNOW, body);
-
-            if (entireResponse.contains("encryptedData=")) {
-                String encryptedResponse = entireResponse.substring(entireResponse.indexOf("encryptedData=") + "encryptedData=".length());
-                encryptedResponse = URLDecoder.decode(encryptedResponse, "UTF-8");
-                System.out.println("encryptedResponse:"+ encryptedResponse);
-
-                byte[] decodedResponse = Base64.decode(encryptedResponse.getBytes(utf8), Base64.DEFAULT);
-
-//                byte[] decryptedResponse = decrypt(encryptionKey, decodedResponse);
-//                String response = new String(decryptedResponse, "UTF-8");
-//                System.out.println("Decoded Response:" + response);
-
-            }
         }catch(Exception e) {
             e.printStackTrace();
         } finally {
-//            return entireResponse;
+            return jsonData;
         }
     }
 
@@ -115,14 +100,6 @@ public class SBIBuddyPayment {
                     CURRENCY_PARAM +
                     "&callbackUrl=http%3A%2F%2F54.169.180.254%2Ftvh_revamp%2Fbookyourhome%2Fsbibuddyresponse" +
                     "&backUrl=http%3A%2F%2F54.169.180.254%2Ftvh_revamp%2Fbookyourhome%2Fsbibuddyresponse";
-
-//            byte[] decodedKey = Base64.decode(ENCODING_KEY.getBytes(utf8), Base64.DEFAULT);
-//            Key encryptionKey = new SecretKeySpec(decodedKey, "AES");
-
-//            byte[] utf8Bytes = payLoad.getBytes(utf8);
-//            byte[] encryptedBody = encrypt(encryptionKey, utf8Bytes);
-//            String encryptedData = Base64.encodeToString(encryptedBody, Base64.DEFAULT);
-
 
             SecretKeySpec keySep = createKeySpec(secretKey);
             String encryptedData = encrypt(payLoad, keySep);

@@ -19,4 +19,10 @@ public class MyBrowser extends WebViewClient {
         view.loadUrl(request.toString());
         return true;
     }
+
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        view.loadUrl("javascript:HtmlViewer.showHTML" +
+                "('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+    }
 }
