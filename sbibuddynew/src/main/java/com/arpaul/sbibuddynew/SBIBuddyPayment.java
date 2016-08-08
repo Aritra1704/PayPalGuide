@@ -2,8 +2,6 @@ package com.arpaul.sbibuddynew;
 
 import android.util.Base64;
 
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
@@ -29,27 +27,31 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class SBIBuddyPayment {
 
-    public final String EXTERNALTRANSACTIONID = "externalTransactionId=";
-    public final String ORDERID_PARAM = "&orderId=";
-    public final String AMOUNT_PARAM = "&amount=";
-    public final String CURRENCY_PARAM = "&currency=INR";
+    public final String TAG_EXTERNALTRANSACTIONID   = "externalTransactionId=";
+    public final String TAG_ORDERID_PARAM           = "&orderId=";
+    public final String TAG_AMOUNT_PARAM            = "&amount=";
+    public final String TAG_CURRENCY_PARAM          = "&currency=INR";
+    public final String TAG_ENCRYPTED               = "&encryptedData=";
+    public final String TAG_URL_CALLBACK            = "&callbackUrl=";
+    public final String TAG_URL_BACK                = "&backUrl=";
 
-    public static final String TRANSACTIONID_PARAM = "transactionId";
-    public static final String MERCHANTID_PARAM = "merchantId";
+    public static final String TRANSACTIONID_PARAM  = "transactionId";
+    public static final String MERCHANTID_PARAM     = "merchantId=";
 
-    public static final String MERCHANTID = "528001601";
-    public static final String ENCODING_KEY = "+VSvfXcO9Ygtxr7iyXZ5vQ==";
+    public static final String MERCHANTID           = "528001601";
+    public static final String ENCODING_KEY         = "+VSvfXcO9Ygtxr7iyXZ5vQ==";
 
-    public static final String URL_PAYNOW = "https://buddyuat.sbi.co.in/mmgw-tls/merchant/page/paynow";
+    public static final String URL_PAYNOW           = "https://buddyuat.sbi.co.in/mmgw-tls/merchant/page/paynow";
+    public static final String URL_CALLBACK         = "https://secure.revvit.fnpplus.com/control/storeSBIBuddyResponse";
 
-    private String transformation = "AES";
-    private String utf8 = "UTF-8";
+    private String transformation                   = "AES";
+    private String utf8                             = "UTF-8";
 
     public SBIBuddyPayment(){
 
     }
 
-    public String paynow1WebView(float amount) {
+    public String paynowWebView(float amount) {
         String jsonData = "";
         try{
             byte[] secretKey = new byte[]{0x01};
@@ -61,19 +63,23 @@ public class SBIBuddyPayment {
             secretKey = ENCODING_KEY.getBytes(utf8);
             secretKey = Base64.decode(secretKey, Base64.DEFAULT);
 
-            String data = EXTERNALTRANSACTIONID + externalTransactionId +
-                    ORDERID_PARAM + orderId +
-                    AMOUNT_PARAM + amount +
-                    CURRENCY_PARAM +
-                    "&callbackUrl=http%3A%2F%2F54.169.180.254%2Ftvh_revamp%2Fbookyourhome%2Fsbibuddyresponse" +
-                    "&backUrl=http%3A%2F%2F54.169.180.254%2Ftvh_revamp%2Fbookyourhome%2Fsbibuddyresponse";
+//            "&callbackUrl=http%3A%2F%2F54.169.180.254%2Ftvh_revamp%2Fbookyourhome%2Fsbibuddyresponse" +
+//                    "&backUrl=http%3A%2F%2F54.169.180.254%2Ftvh_revamp%2Fbookyourhome%2Fsbibuddyresponse";
+
+            String data = TAG_EXTERNALTRANSACTIONID + externalTransactionId +
+                    TAG_ORDERID_PARAM + orderId +
+                    TAG_AMOUNT_PARAM + amount +
+                    TAG_CURRENCY_PARAM +
+                    TAG_URL_CALLBACK + URL_CALLBACK +
+                    TAG_URL_BACK + URL_CALLBACK;
 
             SecretKeySpec keySep = createKeySpec(secretKey);
             String encryptedData = encrypt(data, keySep);
             System.out.println("Encrypted Val =" + encryptedData);
 
 
-            jsonData = MERCHANTID_PARAM + "=" + MERCHANTID + "&encryptedData=" + URLEncoder.encode(encryptedData, "UTF-8");
+            jsonData = MERCHANTID_PARAM + MERCHANTID +
+                    TAG_ENCRYPTED + URLEncoder.encode(encryptedData, utf8);
 
         }catch(Exception e) {
             e.printStackTrace();
@@ -94,17 +100,17 @@ public class SBIBuddyPayment {
             secretKey = ENCODING_KEY.getBytes(utf8);
             secretKey = Base64.decode(secretKey, Base64.DEFAULT);
 
-            String payLoad = EXTERNALTRANSACTIONID + URLEncoder.encode(externalTransactionId, utf8) +
-                    ORDERID_PARAM + URLEncoder.encode(orderId, utf8) +
-                    AMOUNT_PARAM + URLEncoder.encode(amount, utf8) +
-                    CURRENCY_PARAM +
-                    "&callbackUrl=http%3A%2F%2F54.169.180.254%2Ftvh_revamp%2Fbookyourhome%2Fsbibuddyresponse" +
-                    "&backUrl=http%3A%2F%2F54.169.180.254%2Ftvh_revamp%2Fbookyourhome%2Fsbibuddyresponse";
+            String payLoad = TAG_EXTERNALTRANSACTIONID + URLEncoder.encode(externalTransactionId, utf8) +
+                    TAG_ORDERID_PARAM + URLEncoder.encode(orderId, utf8) +
+                    TAG_AMOUNT_PARAM + URLEncoder.encode(amount, utf8) +
+                    TAG_CURRENCY_PARAM +
+                    TAG_URL_CALLBACK + URL_CALLBACK +
+                    TAG_URL_BACK + URL_CALLBACK;
 
             SecretKeySpec keySep = createKeySpec(secretKey);
             String encryptedData = encrypt(payLoad, keySep);
 
-            String body = MERCHANTID_PARAM + "=" + MERCHANTID + "&encryptedData=" + URLEncoder.encode(encryptedData, utf8);
+            String body = MERCHANTID_PARAM + MERCHANTID + TAG_ENCRYPTED + URLEncoder.encode(encryptedData, utf8);
 
             String entireResponse = postJSON(URL_PAYNOW, body);
             System.out.println("entireResponse:"+ entireResponse);
@@ -136,8 +142,8 @@ public class SBIBuddyPayment {
         amount = "4.00";
 //        encodedKey ="jw6CGR29ps19rKGhTGBvZQ==";
 
-        // String payLoad = ORDERID_PARAM + "=" + URLEncoder.encode(orderId, "UTF-8") + "&" + AMOUNT_PARAM + "=" + URLEncoder.encode(amount, "UTF-8");
-        String payLoad = TRANSACTIONID_PARAM + "=" + URLEncoder.encode(transactionId, "UTF-8") + AMOUNT_PARAM + URLEncoder.encode(amount, "UTF-8");
+        // String payLoad = TAG_ORDERID_PARAM + "=" + URLEncoder.encode(orderId, "UTF-8") + "&" + TAG_AMOUNT_PARAM + "=" + URLEncoder.encode(amount, "UTF-8");
+        String payLoad = TRANSACTIONID_PARAM + "=" + URLEncoder.encode(transactionId, "UTF-8") + TAG_AMOUNT_PARAM + URLEncoder.encode(amount, "UTF-8");
 
         byte[] decodedKey = Base64.decode(ENCODING_KEY.getBytes(utf8), Base64.DEFAULT);
         Key encryptionKey = new SecretKeySpec(decodedKey, "AES");
@@ -146,7 +152,7 @@ public class SBIBuddyPayment {
         byte[] encryptedBody = encrypt(encryptionKey, utf8Bytes);
         String encryptedData = Base64.encodeToString(encryptedBody, Base64.DEFAULT);
 
-        String body = MERCHANTID_PARAM + "=" + MERCHANTID + "&encryptedData=" + URLEncoder.encode(encryptedData, "UTF-8");
+        String body = MERCHANTID_PARAM + MERCHANTID + TAG_ENCRYPTED + URLEncoder.encode(encryptedData, "UTF-8");
 
         String entireResponse = send("https://buddyuat.sbi.co.in/mmgw-tls/merchant/api/refund", body);
         System.out.println("entireResponse:"+ entireResponse);
@@ -172,7 +178,7 @@ public class SBIBuddyPayment {
 
 //        encodedKey ="jw6CGR29ps19rKGhTGBvZQ==";
 
-        String payLoad = TRANSACTIONID_PARAM + "=" + URLEncoder.encode(transactionId, "UTF-8") + ORDERID_PARAM + URLEncoder.encode(orderId, "UTF-8");
+        String payLoad = TRANSACTIONID_PARAM + "=" + URLEncoder.encode(transactionId, "UTF-8") + TAG_ORDERID_PARAM + URLEncoder.encode(orderId, "UTF-8");
 
 
         byte[] decodedKey = Base64.decode(ENCODING_KEY.getBytes(utf8), Base64.DEFAULT);
@@ -185,7 +191,7 @@ public class SBIBuddyPayment {
 
         System.out.println("encryptedData   "+encryptedData);
         //String body = MERCHANTID_PARAM + "=" + merchantId + "&encryptedData=" + encryptedData;
-        String body = MERCHANTID_PARAM + "=" + MERCHANTID + "&encryptedData=" + URLEncoder.encode(encryptedData, "UTF-8");
+        String body = MERCHANTID_PARAM + MERCHANTID + TAG_ENCRYPTED + URLEncoder.encode(encryptedData, "UTF-8");
 
         String entireResponse = send("https://buddyuat.sbi.co.in/mmgw-tls/merchant/api/status", body);
         //https://buddyuat.sbi.co.in/mmgw-tls/merchant/page/paynow
