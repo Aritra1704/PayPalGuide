@@ -1,20 +1,20 @@
 package com.arpaul.paypalguide.activity;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.net.Uri;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 
 import com.arpaul.paypalguide.R;
+import com.arpaul.sbibuddynew.ChromeClient;
+import com.arpaul.sbibuddynew.JavaScriptInterface;
 import com.arpaul.sbibuddynew.MyBrowser;
 import com.arpaul.sbibuddynew.SBIBuddyPayment;
-
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,8 +26,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -40,15 +38,36 @@ import javax.net.ssl.X509TrustManager;
 public class SBIBuddyActivity extends AppCompatActivity {
 
     private WebView wvSBIBuddy;
-    String responce;
-    String urlCreateOrder;
+    private String responce;
+    private String urlCreateOrder;
+    private Button btnSignUp, btnBack;
 
+//    http://stackoverflow.com/questions/4065312/detect-click-on-html-button-through-javascript-in-android-webview
+//    http://stackoverflow.com/questions/20917235/webviews-html-button-click-detection-in-activityjava-code
+
+    @SuppressLint("JavascriptInterface")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sbibuddy);
 
         wvSBIBuddy = (WebView) findViewById(R.id.wvSBIBuddy);
+        btnSignUp = new Button(SBIBuddyActivity.this);
+        btnBack = new Button(SBIBuddyActivity.this);
+
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         urlCreateOrder = new SBIBuddyPayment().paynowWebView(1);
 //        wvSBIBuddy.getSettings().setJavaScriptEnabled(true);
@@ -71,6 +90,13 @@ public class SBIBuddyActivity extends AppCompatActivity {
                     public void run() {
                         Log.e("responce",responce);
                         wvSBIBuddy.getSettings().setJavaScriptEnabled(true);
+                        wvSBIBuddy.setWebViewClient(new MyBrowser());
+                        wvSBIBuddy.setWebChromeClient(new ChromeClient());
+                        wvSBIBuddy.addJavascriptInterface(new JavaScriptInterface(SBIBuddyActivity.this), "HtmlViewer");
+
+                        wvSBIBuddy.addJavascriptInterface(btnSignUp, "signup");
+                        wvSBIBuddy.addJavascriptInterface(btnBack, "back");
+
                         wvSBIBuddy.loadDataWithBaseURL("", responce, "text/html", "UTF-8", "");
                     }
                 });
@@ -89,7 +115,7 @@ public class SBIBuddyActivity extends AppCompatActivity {
 //        wvSBIBuddy.loadData(urlCreateOrder, "text/html; charset=utf-8", "base64");
 
 //        wvSBIBuddy.loadDataWithBaseURL(SBIBuddyPayment.URL_PAYNOW,urlCreateOrder,"text/html", "UTF-8", SBIBuddyPayment.ENCODING_KEY);
-//        wvSBIBuddy.addJavascriptInterface(new MyJavaScriptInterface(this), "HtmlViewer");
+//        wvSBIBuddy.addJavascriptInterface(new JavaScriptInterface(this), "HtmlViewer");
 
 //        wvSBIBuddy.postUrl(SBIBuddyPayment.URL_PAYNOW, urlCreateOrder.getBytes());
 
