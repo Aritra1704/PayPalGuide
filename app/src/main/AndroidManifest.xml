@@ -36,6 +36,8 @@
         </activity>
         <activity android:name=".activity.SBIBuddyActivity">
         </activity>
+        <activity android:name=".activity.AirtelMoneyActivity">
+        </activity>
 
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"

@@ -90,6 +90,13 @@ public class TestActivity extends AppCompatActivity {
                 startActivity(new Intent(TestActivity.this, SBIBuddyActivity.class));
             }
         });
+
+        findViewById(R.id.orderAirtelMoney).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TestActivity.this, AirtelMoneyActivity.class));
+            }
+        });
     }
 
     public void onFuturePaymentPressed(View pressed) {

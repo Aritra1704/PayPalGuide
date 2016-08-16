@@ -9,11 +9,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.arpaul.paypalguide.R;
-import com.paypal.android.MEP.CheckoutButton;
-import com.paypal.android.MEP.PayPal;
-import com.paypal.android.MEP.PayPalActivity;
-import com.paypal.android.MEP.PayPalInvoiceData;
-import com.paypal.android.MEP.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 
 import java.math.BigDecimal;
@@ -21,7 +16,6 @@ import java.math.BigDecimal;
 public class MainActivity extends AppCompatActivity {
 
     private boolean _paypalLibraryInit;
-    private CheckoutButton launchPayPalButton;
     private static final String CONFIG_CLIENT_ID = "Aa7ZDll4t1ihlW0JnBlLoLqrQK3mSmbOtq50U3y9s-SgeraxdHe_XXyyeaDgSK_zAet7VLXlEaLoGai8";
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
 
@@ -35,29 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
     //https://developer.paypal.com/docs/classic/mobile/ht_mpl-itemPayment-Android/
     public void initLibrary() {
-        PayPal pp = PayPal.getInstance();
-
-        if (pp == null) {  // Test to see if the library is already initialized
-
-            // This main initialization call takes your Context, AppID, and target server
-            pp = PayPal.initWithAppID(this, "APP-80W284485P519543T", PayPal.ENV_NONE);
-
-            // Required settings:
-
-            // Set the language for the library
-            pp.setLanguage("en_US");
-
-            // Some Optional settings:
-
-            // Sets who pays any transaction fees. Possible values are:
-            // FEEPAYER_SENDER, FEEPAYER_PRIMARYRECEIVER, FEEPAYER_EACHRECEIVER, and FEEPAYER_SECONDARYONLY
-            pp.setFeesPayer(PayPal.FEEPAYER_EACHRECEIVER);
-
-            // true = transaction requires shipping
-            pp.setShippingEnabled(true);
-
-            _paypalLibraryInit = true;
-        }
     }
 
     private void showPayPalButton() {
