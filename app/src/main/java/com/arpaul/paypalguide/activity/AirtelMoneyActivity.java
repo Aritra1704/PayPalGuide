@@ -27,7 +27,7 @@ public class AirtelMoneyActivity extends AppCompatActivity {
             @Override
             public void run()
             {
-                final String url = new AirtelMoneyPayment(AirtelMoneyActivity.this, AirtelMoneyPayment.SERVICE_TYPE.TYPE_TEST, "test@test.com", "9874563210", "1").transactionConfig();
+                final String url = new AirtelMoneyPayment(AirtelMoneyActivity.this, AirtelMoneyPayment.SERVICE_TYPE.TYPE_TEST, "test@test.com", "9874563210", "10").transactionConfig();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

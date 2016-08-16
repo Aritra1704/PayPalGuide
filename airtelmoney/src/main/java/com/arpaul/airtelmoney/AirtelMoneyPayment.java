@@ -3,6 +3,7 @@ package com.arpaul.airtelmoney;
 import android.content.Context;
 
 import com.arpaul.utilitieslib.CalendarUtils;
+import com.arpaul.utilitieslib.LogUtils;
 
 import java.security.MessageDigest;
 import java.util.Random;
@@ -50,6 +51,7 @@ public class AirtelMoneyPayment {
         String hash = generateHash(MERCHANTID, orderId, trxAmount, date, SALTID);
         String param = ParamBuilder.createTransactionParam(MERCHANTID, orderId, URL_SUCCESS, URL_FAILURE, trxAmount, date, CURRENCY, "FNP", cell, email, hash);
 
+        LogUtils.infoLog("transactionConfig", param);
         WebServiceResponse response = new RestServiceCalls(url, param, WEBSERVICE_TYPE.POST).getData();
 
         if(response != null && response.getResponseCode() == WebServiceResponse.ResponseType.SUCCESS){
