@@ -1,6 +1,8 @@
 package com.arpaul.airtelmoney;
 
 
+import android.net.Uri;
+
 /**
  * Created by Aritra on 05-08-2016.
  */
@@ -23,5 +25,25 @@ public class ParamBuilder {
         sbTransaction.append("&HASH=").append(hash);
 
         return sbTransaction.toString();
+    }
+
+    public static String createAirtelMoneyParam(String url, String request, String mid, String txn_ref_no, String successUrl, String failureUrl,
+                                        String amount, String date, String currency, String endmid, String contact, String email, String hash){
+        Uri.Builder builder = Uri.parse(url).buildUpon();
+        builder.appendQueryParameter("REQUEST", request);
+        builder.appendQueryParameter("MID", mid);
+        builder.appendQueryParameter("TXN_REF_NO", txn_ref_no);
+        builder.appendQueryParameter("SU", successUrl);
+        builder.appendQueryParameter("FU", failureUrl);
+        builder.appendQueryParameter("AMT", amount);
+        builder.appendQueryParameter("DATE", date);
+        builder.appendQueryParameter("CUR", currency);
+        builder.appendQueryParameter("END_MID", endmid);
+        builder.appendQueryParameter("CUST_MOBILE", contact);
+        builder.appendQueryParameter("CUST_EMAIL", email);
+        builder.appendQueryParameter("HASH", hash);
+
+        builder.build();
+        return builder.toString();
     }
 }

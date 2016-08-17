@@ -54,52 +54,24 @@ public class AirtelMoneyActivity extends AppCompatActivity {
 //                        wvAirtelMoney.loadDataWithBaseURL("", responce, "text/html", "UTF-8", "");
                     }
                 });
-                *//*runOnUiThread(new Runnable() {
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Log.e("responce",url);
                         wvAirtelMoney.getSettings().setJavaScriptEnabled(true);
                         wvAirtelMoney.loadDataWithBaseURL("", url, "text/html", "UTF-8", "");
                     }
-                });*//*
+                });
 
             }
         }).start();*/
 
 
-        wvAirtelMoney.setWebViewClient(new MyWebViewClient());
+        String url = new AirtelMoneyPayment(AirtelMoneyActivity.this, AirtelMoneyPayment.SERVICE_TYPE.TYPE_TEST, "test@test.com", "", "11").getAirtelMoneyParam();
         wvAirtelMoney.clearCache(false);
-        Uri.Builder b = Uri.parse("https://sit.airtelmoney.in/oneClick/signIn").buildUpon();
-        b.appendQueryParameter("REQUEST", "ECOMM_SIGNON");
-        b.appendQueryParameter("MID", "25649258");
-        b.appendQueryParameter("TXN_REF_NO", "TRX200004087");
-        b.appendQueryParameter("SU", "http://revvit.fnpplus.com/control/storePayUResponse");
-        b.appendQueryParameter("FU", "http://revvit.fnpplus.com/control/storePayUResponse");
-        b.appendQueryParameter("AMT", "11");
-        b.appendQueryParameter("DATE", "08162016182249");
-        b.appendQueryParameter("CUR", "INR");
-        b.appendQueryParameter("CUST_EMAIL", "test@test.com");
-        StringBuilder e = new StringBuilder();
-        try
-        {
-
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
-            messageDigest.update("25649258#TRX200004087#11#08162016182249#c3110acb".getBytes());
-            byte[] mdbytes = messageDigest.digest();
-            byte[] var5 = mdbytes;
-            int var6 = mdbytes.length;
-            for(int var7 = 0; var7 < var6; ++var7) {
-                byte hashByte = var5[var7];
-                e.append(Integer.toString((hashByte & 255) + 256, 16).substring(1));
-            }
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        b.appendQueryParameter("HASH", e.toString());
-        b.build();
         wvAirtelMoney.getSettings().setJavaScriptEnabled(true);
+//        wvAirtelMoney.setWebViewClient(new MyWebViewClient());
+        wvAirtelMoney.setWebViewClient(new MyBrowser());
         wvAirtelMoney.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         wvAirtelMoney.getSettings().setSupportZoom(true);
         wvAirtelMoney.getSettings().setBuiltInZoomControls(true);
@@ -108,7 +80,7 @@ public class AirtelMoneyActivity extends AppCompatActivity {
         wvAirtelMoney.canGoForward();
         wvAirtelMoney.clearCache(false);
         wvAirtelMoney.getSettings().setAllowFileAccess(true);
-        wvAirtelMoney.loadUrl(b.toString());
+        wvAirtelMoney.loadUrl(url);
 
     }
 

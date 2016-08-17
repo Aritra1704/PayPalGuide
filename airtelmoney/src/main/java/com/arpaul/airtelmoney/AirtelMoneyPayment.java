@@ -16,8 +16,9 @@ public class AirtelMoneyPayment {
     public static final String MERCHANTID   = "25649258";//Test merchant id
     public static final String SALTID       = "c3110acb";
     public static final String CURRENCY     = "INR";
-    public static final String TEST_URL           = "https://sit.airtelmoney.in/oneClick/signIn?REQUEST=ECOMM_SIGNON";
-    public static final String PRODUCTION_URL     = "https://ecom.airtelmoney.in/oneClick/signIn?REQUEST=ECOMM_SIGNON";
+    public static final String REQUEST      = "ECOMM_SIGNON";
+    public static final String TEST_URL           = "https://sit.airtelmoney.in/oneClick/signIn?";
+    public static final String PRODUCTION_URL     = "https://ecom.airtelmoney.in/oneClick/signIn?";
 
     public static final String URL_SUCCESS  = "http://revvit.fnpplus.com/control/storePayUResponse";
     public static final String URL_FAILURE  = "http://revvit.fnpplus.com/control/storePayUResponse";
@@ -25,12 +26,23 @@ public class AirtelMoneyPayment {
     private Context context;
     private SERVICE_TYPE type;
 
-    private String email, cell, trxAmount;
+    private String url, request, email, cell, trxAmount;
 
     public AirtelMoneyPayment(Context context, SERVICE_TYPE type, String email, String cell, String trxAmount) {
         this.context = context;
         this.type = type;
 
+        this.email = email;
+        this.cell = cell;
+        this.trxAmount = trxAmount;
+    }
+
+    public AirtelMoneyPayment(Context context, SERVICE_TYPE type, String url, String request, String email, String cell, String trxAmount) {
+        this.context = context;
+        this.type = type;
+
+        this.url = url;
+        this.request = request;
         this.email = email;
         this.cell = cell;
         this.trxAmount = trxAmount;
@@ -50,6 +62,32 @@ public class AirtelMoneyPayment {
 
         String hash = generateHash(MERCHANTID, orderId, trxAmount, date, SALTID);
         String param = ParamBuilder.createTransactionParam(MERCHANTID, orderId, URL_SUCCESS, URL_FAILURE, trxAmount, date, CURRENCY, "", cell, email, hash);
+
+        return param;
+
+        /*LogUtils.infoLog("transactionConfig", param);
+        WebServiceResponse response = new RestServiceCalls(url, param, WEBSERVICE_TYPE.POST).getData();
+
+        if(response != null && response.getResponseCode() == WebServiceResponse.ResponseType.SUCCESS){
+            return response.getResponseMessage();
+        } else
+            return null;*/
+    }
+
+    public String getAirtelMoneyParam(){
+        String url = "";
+        if(type == SERVICE_TYPE.TYPE_TEST)
+            url = TEST_URL;//for test environment
+        else
+            url = PRODUCTION_URL;
+
+        Random randomGenerator = new Random();
+        String orderId = "TRX" + (1 + randomGenerator.nextInt(2)) * 10000 + randomGenerator.nextInt(10000);
+
+        String date = CalendarUtils.getDateinPattern(WebServiceConstant.DATE_PATTERN);
+
+        String hash = generateHash(MERCHANTID, orderId, trxAmount, date, SALTID);
+        String param = ParamBuilder.createAirtelMoneyParam(url, REQUEST, MERCHANTID, orderId, URL_SUCCESS, URL_FAILURE, trxAmount, date, CURRENCY, "", cell, email, hash);
 
         return param;
 
