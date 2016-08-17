@@ -6,10 +6,10 @@ import android.webkit.JavascriptInterface;
 /**
  * Created by Aritra on 05-08-2016.
  */
-public class MyJavaScriptInterface {
+public class JavaScriptInterface {
     private Context ctx;
 
-    public MyJavaScriptInterface(Context ctx) {
+    public JavaScriptInterface(Context ctx) {
         this.ctx = ctx;
     }
 

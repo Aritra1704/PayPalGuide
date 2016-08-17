@@ -16,8 +16,8 @@ public class AirtelMoneyPayment {
     public static final String MERCHANTID   = "25649258";//Test merchant id
     public static final String SALTID       = "c3110acb";
     public static final String CURRENCY     = "INR";
-    private final String TEST_URL           = "https://sit.airtelmoney.in/oneClick/signIn?REQUEST=ECOMM_SIGNON";
-    private final String PRODUCTION_URL     = "https://ecom.airtelmoney.in/oneClick/signIn?REQUEST=ECOMM_SIGNON";
+    public static final String TEST_URL           = "https://sit.airtelmoney.in/oneClick/signIn?REQUEST=ECOMM_SIGNON";
+    public static final String PRODUCTION_URL     = "https://ecom.airtelmoney.in/oneClick/signIn?REQUEST=ECOMM_SIGNON";
 
     public static final String URL_SUCCESS  = "http://revvit.fnpplus.com/control/storePayUResponse";
     public static final String URL_FAILURE  = "http://revvit.fnpplus.com/control/storePayUResponse";
@@ -49,15 +49,17 @@ public class AirtelMoneyPayment {
         String date = CalendarUtils.getDateinPattern(WebServiceConstant.DATE_PATTERN);
 
         String hash = generateHash(MERCHANTID, orderId, trxAmount, date, SALTID);
-        String param = ParamBuilder.createTransactionParam(MERCHANTID, orderId, URL_SUCCESS, URL_FAILURE, trxAmount, date, CURRENCY, "FNP", cell, email, hash);
+        String param = ParamBuilder.createTransactionParam(MERCHANTID, orderId, URL_SUCCESS, URL_FAILURE, trxAmount, date, CURRENCY, "", cell, email, hash);
 
-        LogUtils.infoLog("transactionConfig", param);
+        return param;
+
+        /*LogUtils.infoLog("transactionConfig", param);
         WebServiceResponse response = new RestServiceCalls(url, param, WEBSERVICE_TYPE.POST).getData();
 
         if(response != null && response.getResponseCode() == WebServiceResponse.ResponseType.SUCCESS){
             return response.getResponseMessage();
         } else
-            return null;
+            return null;*/
     }
 
     private String generateHash(String mid, String txn_ref_no, String amount, String date, String salt){

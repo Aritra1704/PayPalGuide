@@ -11,6 +11,8 @@ import android.webkit.WebView;
 import android.widget.Button;
 
 import com.arpaul.paypalguide.R;
+import com.arpaul.sbibuddynew.ChromeClient;
+import com.arpaul.sbibuddynew.JavaScriptInterface;
 import com.arpaul.sbibuddynew.MyBrowser;
 import com.arpaul.sbibuddynew.SBIBuddyPayment;
 
@@ -89,8 +91,8 @@ public class SBIBuddyActivity extends AppCompatActivity {
                         Log.e("responce",responce);
                         wvSBIBuddy.getSettings().setJavaScriptEnabled(true);
                         wvSBIBuddy.setWebViewClient(new MyBrowser());
-//                        wvSBIBuddy.setWebChromeClient(new ChromeClient());
-//                        wvSBIBuddy.addJavascriptInterface(new JavaScriptInterface(SBIBuddyActivity.this), "HtmlViewer");
+                        wvSBIBuddy.setWebChromeClient(new ChromeClient());
+                        wvSBIBuddy.addJavascriptInterface(new JavaScriptInterface(SBIBuddyActivity.this), "HtmlViewer");
 
                         wvSBIBuddy.addJavascriptInterface(btnSignUp, "signup");
                         wvSBIBuddy.addJavascriptInterface(btnBack, "back");
@@ -149,8 +151,8 @@ public class SBIBuddyActivity extends AppCompatActivity {
 
     }
 
-    public static String makeRestCallAndGetResponse(String strUrl, String method, String parameters)
-    {String response;
+    public static String makeRestCallAndGetResponse(String strUrl, String method, String parameters) {
+        String response;
         TrustManager[] trustAllCerts = new TrustManager[]
                 {
                         new X509TrustManager() {

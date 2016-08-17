@@ -8,6 +8,10 @@ import android.webkit.WebView;
 
 import com.arpaul.airtelmoney.AirtelMoneyPayment;
 import com.arpaul.paypalguide.R;
+import com.arpaul.paypalguide.paymentService.RestCall;
+import com.arpaul.sbibuddynew.ChromeClient;
+import com.arpaul.sbibuddynew.JavaScriptInterface;
+import com.arpaul.sbibuddynew.MyBrowser;
 import com.arpaul.sbibuddynew.SBIBuddyPayment;
 
 /**
@@ -27,15 +31,31 @@ public class AirtelMoneyActivity extends AppCompatActivity {
             @Override
             public void run()
             {
-                final String url = new AirtelMoneyPayment(AirtelMoneyActivity.this, AirtelMoneyPayment.SERVICE_TYPE.TYPE_TEST, "test@test.com", "9874563210", "10").transactionConfig();
+                final String url = new AirtelMoneyPayment(AirtelMoneyActivity.this, AirtelMoneyPayment.SERVICE_TYPE.TYPE_TEST, "test@test.com", "", "11").transactionConfig();
+
+                final String responce = new RestCall().makeRestCallAndGetResponse(AirtelMoneyPayment.TEST_URL, "POST",url);
                 runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("responce",responce);
+                        wvAirtelMoney.loadUrl(responce);
+
+//                        wvAirtelMoney.getSettings().setJavaScriptEnabled(true);
+//                        wvAirtelMoney.setWebViewClient(new MyBrowser());
+//                        wvAirtelMoney.setWebChromeClient(new ChromeClient());
+//                        wvAirtelMoney.addJavascriptInterface(new JavaScriptInterface(AirtelMoneyActivity.this), "HtmlViewer");
+//
+//                        wvAirtelMoney.loadDataWithBaseURL("", responce, "text/html", "UTF-8", "");
+                    }
+                });
+                /*runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Log.e("responce",url);
                         wvAirtelMoney.getSettings().setJavaScriptEnabled(true);
                         wvAirtelMoney.loadDataWithBaseURL("", url, "text/html", "UTF-8", "");
                     }
-                });
+                });*/
 
             }
         }).start();

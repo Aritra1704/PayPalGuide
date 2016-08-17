@@ -24,5 +24,7 @@ public class MyBrowser extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         view.loadUrl("javascript:HtmlViewer.showHTML" +
                 "('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+
+        view.scrollTo(0,0);
     }
 }
